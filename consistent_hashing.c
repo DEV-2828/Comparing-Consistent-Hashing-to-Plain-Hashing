@@ -1,7 +1,5 @@
 #include "consistent_hashing.h"
 
-
-
 unsigned long long djb2_hash_64(const char *s){
     unsigned long long hash = 5381;
     int c;
@@ -200,29 +198,19 @@ void free_bst(BSTNode* root) {
     free(root);
 }
 
-
-/////////// extra problem qs
-/**
- * Implements: getLoadDistribution()
- * * Iterates through all provided keys, maps them to their respective nodes
- * using consistent hashing, and prints the total key count for each
- * active node.
- */
 void getLoadDistribution(SystemState *sys, char **keys, int nkeys) {
     if (sys->node_count == 0 || nkeys == 0) {
         printf("No nodes or keys to distribute.\n");
         return;
     }
 
-    // Use an array to store load counts. The index corresponds
-    // to the node_index in the sys->nodes array.
+
     int *load = calloc(sys->node_count, sizeof(int));
     if (!load) {
         fprintf(stderr, "Memory allocation failed in getLoadDistribution()\n");
         return;
     }
 
-    // Iterate all keys and find the node for each one
     for (int i = 0; i < nkeys; i++) {
         int node_idx = get_node_for_key_consistent(sys, keys[i]);
         if (node_idx != -1) {
@@ -230,7 +218,6 @@ void getLoadDistribution(SystemState *sys, char **keys, int nkeys) {
         }
     }
 
-    // Print the results
     printf("## Load Distribution ##\n");
     for (int i = 0; i < sys->node_count; i++) {
         if (sys->nodes[i].active) {
@@ -242,7 +229,7 @@ void getLoadDistribution(SystemState *sys, char **keys, int nkeys) {
 }
 
 void getKeysForNode(SystemState *sys, const char *nodeID, char **keys, int nkeys) {
-    // Find the index of the node we care about
+
     int target_node_idx = node_index_by_id(sys, nodeID);
     
     if (target_node_idx == -1) {
@@ -266,10 +253,6 @@ void getKeysForNode(SystemState *sys, const char *nodeID, char **keys, int nkeys
         printf("  (No keys mapped to this node)\n");
     }
 }
-
-///////////////////////
-
-
 
 void simulate(SystemState *sys, int nkeys) {
     if (nkeys <= 0) return;
@@ -306,8 +289,6 @@ void simulate(SystemState *sys, int nkeys) {
         snprintf(keys[i], MAX_KEY_LEN, "key-%d", i);
     }
 
-    // baseline mapline
-
     int *base_consistent = malloc(sizeof(int) * nkeys);
     int *base_plain = malloc(sizeof(int) * nkeys);
     if (!base_consistent || !base_plain) {
@@ -328,14 +309,6 @@ void simulate(SystemState *sys, int nkeys) {
     printf("\n--- Keys for Node-0 ---\n");
     getKeysForNode(sys, "Node-0", keys, nkeys);
     printf("\n");
-    // **** End of example ****
-
-
-
-
-    ///////////////////////  end
-
-    //node join
 
     int total_vnodes =0, vnode_counts=0;
     for (int i = 0; i <sys->node_count; i++)
@@ -398,3 +371,4 @@ void simulate(SystemState *sys, int nkeys) {
     free(after_leave_consistent);
     free(after_leave_plain);
 }
+
