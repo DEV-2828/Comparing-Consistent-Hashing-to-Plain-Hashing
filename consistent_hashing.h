@@ -47,25 +47,7 @@ double compute_remap_fraction(int *before, int *after, int nkeys);
 void free_bst(BSTNode* root);
 void simulate(SystemState *sys, int nkeys);
 
-
-
-
-// ADD THESE NEW PROTOTYPES
-/**
- * @brief Prints the distribution of keys across all active nodes.
- * @param sys The SystemState containing the nodes.
- * @param keys An array of key strings to map.
- * @param nkeys The total number of keys in the array.
- */
 void getLoadDistribution(SystemState *sys, char **keys, int nkeys);
-
-/**
- * @brief Prints a list of all keys mapped to a specific node ID.
- * @param sys The SystemState containing the nodes.
- *IA *param nodeID The string ID of the target node (e.g., "Node-1").
- * @param keys An array of key strings to check.
- * @param nkeys The total number of keys in the array.
- */
 void getKeysForNode(SystemState *sys, const char *nodeID, char **keys, int nkeys);
 
 #endif
